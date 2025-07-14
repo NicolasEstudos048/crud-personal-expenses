@@ -2,7 +2,7 @@ package com.nicolas.project.dao;
 
 import java.util.List;
 
-public interface CrudDAO<T> {
+public interface CrudInterfaceDAO<T> {
     public void create(T obj);
 
     public List<T> read();
