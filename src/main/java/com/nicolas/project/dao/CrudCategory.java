@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.nicolas.project.config.MySQLConnection;
@@ -35,8 +36,22 @@ public class CrudCategory implements CrudInterfaceDAO<Category> {
 
     @Override
     public List<Category> read() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
+        List<Category> categories = new ArrayList<>();
+        String sql = "SELECT * FROM category";
+
+        try (Connection conn = MySQLConnection.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);) {
+            while (rs.next()) {
+                categories.add(new Category(
+                        rs.getInt("id"),
+                        rs.getString("name")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return categories;
     }
 
     @Override
