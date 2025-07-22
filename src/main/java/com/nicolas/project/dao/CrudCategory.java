@@ -55,9 +55,19 @@ public class CrudCategory implements CrudInterfaceDAO<Category> {
     }
 
     @Override
-    public void update(Category obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public void update(Category category) {
+        String sql = "UPDATE category SET name=? WHERE id=?";
+
+        try (Connection conn = MySQLConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setString(1, category.getName());
+            stmt.setInt(2, category.getId());
+
+            int rows = stmt.executeUpdate();
+            System.out.printf("%d rows affected %n", rows);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
