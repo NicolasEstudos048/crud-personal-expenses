@@ -72,8 +72,18 @@ public class CrudCategory implements CrudInterfaceDAO<Category> {
 
     @Override
     public void delete(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        String sql = "DELETE FROM category WHERE id=?";
+
+        try (Connection conn = MySQLConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+            stmt.setInt(1, id);
+            int rows = stmt.executeUpdate();
+
+            System.out.printf("%d rows affected %n", rows);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }
